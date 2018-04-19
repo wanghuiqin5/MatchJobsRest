@@ -42,6 +42,41 @@ public class WorkerManager {
         }
     }
     
+    public static List<Worker> getWorkerList(){
+        List<Worker> workerList = new ArrayList<Worker>();
+        Gson gson = new Gson();
+        RestfulRequest rest = new RestfulRequest(WORKERURL);
+        rest.sendRequest();
+        if(rest.isSuccess()){
+            String data = rest.getReturnData();
+            Type type = new TypeToken<List<Worker>>() {}.getType();
+            if(data==null){
+                System.out.println("No any worker information returned from Rest request");
+                return null;
+            }
+            workerList = gson.fromJson(data, type);
+            System.out.println("Worker number returned:" + workerList.size());
+            return workerList;
+        }else{
+            System.out.println("Workers Rest request failed:"+rest.toString());
+            return null;
+        }
+    }
+    
+    public static Worker getWorker(List<Worker> workerList, int id){
+        if(workerList==null)
+            return null;
+        List<Worker> list = workerList.stream().filter(worker -> worker.userId==id).collect(Collectors.toList());
+        if(list!=null && list.size()>0){
+            Worker worker =  list.get(0);
+            System.out.println("The worker information for id "+id +":"+new Gson().toJson(worker));
+            return worker;
+        }else{
+            System.out.println("No worker information with id "+id+" returned from Rest");
+            return null;
+        }
+    }
+    
     
     public static void main(String[] args){
         getWorker(5);
