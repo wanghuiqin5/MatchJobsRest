@@ -22,15 +22,21 @@ import worker.WorkerManager;
 @Path("/jobs")
 public class JobMatchResource {
     
+    /**
+     * Get up to 3 matched job for a given worker id. URL: /jobs/{workerId}
+     * @param workerId
+     * @return
+     */
     @Path("{workerId}")
     @GET
     @Produces("application/json")
     public String getMatchJobs(@PathParam(value="workerId") int workerId){
+        System.out.println("Matched job for worker "+workerId);
         List<JobInfo> jobList = JobManager.getJobList();
         Worker worker = WorkerManager.getWorker(workerId);
         List<JobInfo> matchedJobList = new ArrayList<JobInfo>();
 
-        if(worker !=null && jobList !=null && jobList.size()>3){
+        if(worker !=null && jobList !=null && jobList.size()>0){
             //filter with required properties
             matchedJobList = jobList.stream().filter(job->isDriverLicenseMatched(job,worker)
                     && isRequiredCertsMatched(job,worker)
