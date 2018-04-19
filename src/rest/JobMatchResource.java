@@ -42,7 +42,7 @@ public class JobMatchResource {
                     && isRequiredCertsMatched(job,worker)
                     && isSkillsMatched(job,worker)
                     && isLocationMatched(job,worker)
-                    ).limit(3).collect(Collectors.toList());
+                    ).limit(3).collect(Collectors.toList());//3 jobs, no sort
             System.out.println("Matched job for worker "+workerId+": "+matchedJobList.size());
             System.out.println("Matched job for worker "+workerId+": "+new Gson().toJson(matchedJobList));
         }else
