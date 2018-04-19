@@ -31,6 +31,7 @@ public class WorkerManager {
             if(list!=null && list.size()>0){
                 Worker worker =  list.get(0);
                 System.out.println("The worker information for id "+id +":"+gson.toJson(worker));
+                return worker;
             }else{
                 System.out.println("No worker information with id "+id+" returned from Rest");
                 return null;
@@ -39,7 +40,6 @@ public class WorkerManager {
             System.out.println("Workers Rest request failed:"+rest.toString());
             return null;
         }
-        return null;
     }
     
     
